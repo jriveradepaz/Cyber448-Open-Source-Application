@@ -3,7 +3,7 @@
 # Press Shift+F6 to execute it or replace it with your code.
 """
 import phoneScan
-
+import sys
 phoneScan.get_phone_number()
 
 """
@@ -42,15 +42,19 @@ home.pack()
 """
 Create functions for every buttons
 """
-def create_window():
+def create_window(button):
+    title_text = button.cget("text")
+    
     new_window = Tk()
-
+    new_window.title(title_text)
+    new_window.geometry("400x400")
+    
     main.destroy()  #closes main window
 
 
 #Main window buttons
 malShare = Button(main,text='Malshare')
-malShare.config(command=create_window,
+malShare.config(command=lambda:create_window(malShare),
               font=('Courier New', 12), 
               bg="#00C3EB", 
               fg="black", 
@@ -60,8 +64,8 @@ malShare.config(command=create_window,
 malShare.pack(pady=20)
 
 urlScan = Button(main,text='URLScan')
-urlScan.config(command=create_window,
-              font=('Courier New', 12), 
+urlScan.config(command=lambda:create_window(urlScan),
+              font=('Courier New', 12),  
               bg="#00C3EB", 
               fg="black", 
               activebackground='#FF0000', 
@@ -70,7 +74,7 @@ urlScan.config(command=create_window,
 urlScan.pack(pady=20)
 
 webOfTrust = Button(main,text='WebofTrust')
-webOfTrust.config(command=create_window,
+webOfTrust.config(command=lambda:create_window(webOfTrust),
               font=('Courier New', 12), 
               bg="#00C3EB", 
               fg="black", 
@@ -80,7 +84,7 @@ webOfTrust.config(command=create_window,
 webOfTrust.pack(pady=20)
 
 veriPhone = Button(main,text='Veriphone')
-veriPhone.config(command=create_window,
+veriPhone.config(command=lambda:create_window(veriPhone),
               font=('Courier New', 12), 
               bg="#00C3EB", 
               fg="black", 
@@ -90,7 +94,7 @@ veriPhone.config(command=create_window,
 veriPhone.pack(pady=20)
 
 virusTotal = Button(main,text='VirusTotal')
-virusTotal.config(command=create_window,
+virusTotal.config(command=lambda:create_window(virusTotal),
               font=('Courier New', 12), 
               bg="#00C3EB", 
               fg="black", 
@@ -98,5 +102,16 @@ virusTotal.config(command=create_window,
               activeforeground='white',
               width=20)
 virusTotal.pack(pady=20)
+
+End = Button(main,text='Exit')
+End.config(command=main.quit,
+           font=('Courier New', 12), 
+           bg="#00C3EB", 
+           fg="black", 
+           activebackground='#FF0000', 
+           activeforeground='white',
+           width=20)
+End.pack(pady=20)
+#ends application
 
 main.mainloop()
