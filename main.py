@@ -12,11 +12,15 @@ FileScan.get_file_scan()
 # Below are code for the GUI
 import sys
 import ctypes
+import tkinter as tk
+from tkinter import filedialog
 from tkinter import *
+import MalShare
+from MalShare import get_malshare_info
 
 #Makes GUI less blurry
-if 'win' in sys.platform:
-    ctypes.windll.shcore.SetProcessDpiAwareness(1)
+#if 'win' in sys.platform:
+#    ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
 main = Tk() #Tkinter window
 
@@ -53,17 +57,62 @@ def create_window(button):
     
     main.destroy()  #closes main window
 
+#MalShare window function
+def malShare_window():
+    new_window = tk.Toplevel(main)
+    new_window.title("MalShare")
+    new_window.geometry("600x600")
+    new_window.config(background="#4A4459")
 
-#Main window buttons
-malShare = Button(main,text='Malshare')
-malShare.config(command=lambda:create_window(malShare),
+    def compute_sha256(path):
+        import hashlib
+        h = hashlib.sha256()
+        with open(path, "rb") as f:
+            for chunk in iter(lambda: f.read(4096), b""):
+                h.update(chunk)
+        return h.hexdigest()
+
+    #Function to open file 
+    def openFile():
+        filepath = filedialog.askopenfilename()
+        if not filepath:
+            return
+        print("Selected:", filepath)
+        hash_value = compute_sha256(filepath)
+        print("File hash:", hash_value)
+        # Correct call
+        get_malshare_info(file_hash=hash_value, save_path="malshare_result.json")
+    #MalShare button
+    tk.Button(new_window, 
+              text="Select a File", 
+              command=openFile,
               font=('Courier New', 12), 
               bg="#00C3EB", 
               fg="black", 
               activebackground='#FF0000', 
               activeforeground='white',
-              width=20)
-malShare.pack(pady=20)
+              width=20).pack()
+    main.withdrawl()  #closes main window
+
+#Main window buttons
+malShare = Button(main, 
+                  text='Malshare', 
+                  command=malShare_window, 
+                  font=('Courier New', 12), 
+                  bg="#00C3EB", 
+                  fg="black", 
+                  activebackground='#FF0000', 
+                  activeforeground='white',
+                  width=20).pack()
+
+#Move this function at the top
+#URLScan Window Function
+def urlScan_window():
+    new_window = tk.Toplevel(main)
+    new_window.title("URLScan")
+    new_window.geometry("400x400")
+    new_window.config(background="#4A4459")
+    main.withdrawl()  #closes main window
 
 urlScan = Button(main,text='URLScan')
 urlScan.config(command=lambda:create_window(urlScan),

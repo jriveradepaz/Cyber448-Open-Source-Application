@@ -7,7 +7,6 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-
 MALSHARE_API_KEY = os.getenv("MALSHARE_API_KEY", "4ddbba3649a21f53adfd28a7205c9b99266baf28e9c5fe499b90b1192e1453a3")
 BASE_URL = "https://malshare.com/api.php"
 REQUEST_TIMEOUT = 10
@@ -108,3 +107,4 @@ def _cli():
 
 if __name__ == "__main__":
 	_cli()
+
